@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="format-detection" content="telephone=no">
+<title>李栀 · 520 专属小站</title>
+<style>
+  :root {
+    --pink-50: #fff5f7;
+    --pink-100: #ffe4e9;
+    --pink-200: #ffc8d3;
+    --pink-300: #ffa3b5;
+    --pink-400: #ff7a94;
+    --pink-500: #ff4d6d;
+    --rose: #e8536b;
+    --coral: #ff6b6b;
+    --warm-white: #fffafb;
+    --cream: #fff8f0;
+    --text: #3d2c2e;
+    --text-light: #6b5b5e;
+    --text-muted: #9a8a8d;
+    --card-bg: rgba(255,255,255,0.85);
+    --card-shadow: 0 2px 16px rgba(255,77,109,0.08);
+    --card-shadow-hover: 0 4px 24px rgba(255,77,109,0.14);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+    background: linear-gradient(175deg, #fff0f3 0%, #ffe9ec 15%, #fff5ee 30%, #fff0f5 50%, #fce4ec 70%, #fff5f0 100%);
+    background-attachment: fixed;
+    color: var(--text);
+    line-height: 1.75;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Decorative floating hearts */
+  .hearts-bg {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+  .hearts-bg span {
+    position: absolute;
+    font-size: 18px;
+    animation: floatUp 12s infinite ease-in;
+    opacity: 0.15;
+  }
+  .hearts-bg span:nth-child(1) { left: 5%; animation-delay: 0s; font-size: 22px; }
+  .hearts-bg span:nth-child(2) { left: 15%; animation-delay: 2s; font-size: 16px; }
+  .hearts-bg span:nth-child(3) { left: 25%; animation-delay: 4s; font-size: 20px; }
+  .hearts-bg span:nth-child(4) { left: 35%; animation-delay: 1s; font-size: 14px; }
+  .hearts-bg span:nth-child(5) { left: 45%; animation-delay: 5s; font-size: 24px; }
+  .hearts-bg span:nth-child(6) { left: 55%; animation-delay: 3s; font-size: 18px; }
+  .hearts-bg span:nth-child(7) { left: 65%; animation-delay: 6s; font-size: 20px; }
+  .hearts-bg span:nth-child(8) { left: 75%; animation-delay: 2.5s; font-size: 16px; }
+  .hearts-bg span:nth-child(9) { left: 85%; animation-delay: 4.5s; font-size: 22px; }
+  .hearts-bg span:nth-child(10) { left: 92%; animation-delay: 1.5s; font-size: 15px; }
+
+  @keyframes floatUp {
+    0% { transform: translateY(105vh) rotate(0deg) scale(0.5); opacity: 0; }
+    10% { opacity: 0.15; }
+    80% { opacity: 0.1; }
+    100% { transform: translateY(-10vh) rotate(30deg) scale(1.2); opacity: 0; }
+  }
+
+  /* Container */
+  .container {
+    position: relative;
+    z-index: 1;
+    max-width: 520px;
+    margin: 0 auto;
+    padding: 0 18px;
+  }
+
+  /* Hero */
+  .hero {
+    text-align: center;
+    padding: 50px 0 30px;
+    position: relative;
+  }
+  .hero-avatar {
+    width: 72px;
+    height: 72px;
+    margin: 0 auto 16px;
+    background: linear-gradient(135deg, #ffc8d3 0%, #ff7a94 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 36px;
+    box-shadow: 0 4px 20px rgba(255,77,109,0.25);
+  }
+  .hero h1 {
+    font-size: 26px;
+    font-weight: 700;
+    background: linear-gradient(135deg, #e8536b 0%, #ff4d6d 40%, #ff7a94 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 6px;
+    letter-spacing: 2px;
+  }
+  .hero .subtitle {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+  }
+  .hero-quote {
+    display: inline-block;
+    background: var(--card-bg);
+    border-radius: 20px;
+    padding: 12px 20px;
+    font-size: 14px;
+    color: var(--rose);
+    box-shadow: var(--card-shadow);
+    line-height: 1.8;
+    max-width: 320px;
+  }
+  .hero-quote::before { content: '"'; }
+  .hero-quote::after { content: '"'; }
+
+  /* Nav pills */
+  .nav-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    padding: 0 0 24px;
+  }
+  .nav-pills a {
+    text-decoration: none;
+    font-size: 13px;
+    padding: 6px 14px;
+    border-radius: 20px;
+    background: rgba(255,255,255,0.7);
+    color: var(--rose);
+    border: 1px solid var(--pink-200);
+    transition: all 0.25s;
+    white-space: nowrap;
+  }
+  .nav-pills a:active {
+    background: var(--pink-300);
+    color: white;
+    border-color: var(--pink-300);
+    transform: scale(0.96);
+  }
+
+  /* Section */
+  .section {
+    margin-bottom: 28px;
+    scroll-margin-top: 20px;
+  }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .section-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    flex-shrink: 0;
+  }
+  .section-icon.period { background: #ffe0e5; }
+  .section-icon.life { background: #fff3e0; }
+  .section-icon.study { background: #e8f0fe; }
+  .section-icon.safety { background: #fce4ec; }
+  .section-icon.money { background: #e8f5e9; }
+  .section-icon.growth { background: #f3e5f5; }
+
+  .section-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text);
+  }
+  .section-desc {
+    font-size: 13px;
+    color: var(--text-light);
+  }
+
+  /* Cards */
+  .card {
+    background: var(--card-bg);
+    border-radius: 16px;
+    padding: 18px;
+    margin-bottom: 12px;
+    box-shadow: var(--card-shadow);
+    border: 1px solid rgba(255,200,210,0.3);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .card:active { transform: scale(0.985); box-shadow: var(--card-shadow-hover); }
+  .card h4 {
+    font-size: 15px;
+    color: var(--rose);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .card h4 .emoji { font-size: 18px; }
+  .card p { font-size: 13px; color: var(--text-light); margin-bottom: 8px; }
+  .card ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 8px;
+  }
+  .card ul li {
+    font-size: 13px;
+    color: var(--text-light);
+    padding: 3px 0 3px 16px;
+    position: relative;
+  }
+  .card ul li::before {
+    content: '';
+    position: absolute;
+    left: 2px;
+    top: 11px;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--pink-300);
+  }
+
+  /* Links */
+  .link-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 8px;
+  }
+  .link-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    font-size: 12px;
+    padding: 4px 12px;
+    border-radius: 14px;
+    background: var(--pink-50);
+    color: var(--rose);
+    text-decoration: none;
+    border: 1px solid var(--pink-200);
+    transition: all 0.2s;
+  }
+  .link-tag:active { background: var(--pink-300); color: white; }
+  .link-tag.external::after { content: ' ↗'; font-size: 10px; opacity: 0.6; }
+
+  /* Highlight box */
+  .highlight-box {
+    background: linear-gradient(135deg, #fff0f3 0%, #fff5ee 100%);
+    border-left: 3px solid var(--pink-400);
+    border-radius: 0 12px 12px 0;
+    padding: 12px 16px;
+    margin: 12px 0;
+    font-size: 13px;
+    color: var(--rose);
+  }
+  .highlight-box strong { color: var(--pink-500); }
+
+  /* Emergency bar */
+  .emergency-bar {
+    background: linear-gradient(135deg, #ff4d6d 0%, #ff7a94 100%);
+    border-radius: 14px;
+    padding: 14px 18px;
+    color: white;
+    font-size: 13px;
+    margin: 12px 0;
+  }
+  .emergency-bar a {
+    color: white;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: 2px;
+  }
+
+  /* Quote divider */
+  .quote-divider {
+    text-align: center;
+    padding: 16px 0;
+    color: var(--pink-400);
+    font-size: 13px;
+    opacity: 0.8;
+    line-height: 1.8;
+    font-style: italic;
+  }
+  .quote-divider::before { content: '🌷 '; }
+  .quote-divider::after { content: ' 🌷'; }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    padding: 40px 0 32px;
+    position: relative;
+  }
+  .footer-heart {
+    font-size: 48px;
+    display: block;
+    margin-bottom: 12px;
+    animation: heartbeat 1.5s ease-in-out infinite;
+  }
+  @keyframes heartbeat {
+    0%, 100% { transform: scale(1); }
+    15% { transform: scale(1.15); }
+    30% { transform: scale(1); }
+    45% { transform: scale(1.15); }
+    60% { transform: scale(1); }
+  }
+  .footer-message {
+    font-size: 15px;
+    color: var(--rose);
+    font-weight: 600;
+    margin-bottom: 8px;
+    line-height: 1.8;
+  }
+  .footer-sign {
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+  .footer-date {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 24px;
+    opacity: 0.6;
+  }
+
+  /* Small tag */
+  .tag {
+    display: inline-block;
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 10px;
+    background: #ffe4e9;
+    color: var(--rose);
+    margin-right: 4px;
+  }
+
+  /* Contact card - no interaction */
+  .info-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--text-light);
+    padding: 4px 0;
+  }
+  .info-row .label {
+    color: var(--text-muted);
+    min-width: 56px;
+    flex-shrink: 0;
+  }
+  .info-row .value {
+    color: var(--text);
+    word-break: break-all;
+  }
+</style>
+</head>
+<body>
+
+<!-- Floating hearts background -->
+<div class="hearts-bg">
+  <span>♡</span><span>♥</span><span>♡</span><span>♥</span><span>♡</span>
+  <span>♥</span><span>♡</span><span>♥</span><span>♡</span><span>♥</span>
+</div>
+
+<div class="container">
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-avatar">🌸</div>
+    <h1>李栀 · 520 专属小站</h1>
+    <p class="subtitle">一个只为你准备的温暖角落</p>
+    <div class="hero-quote">你照顾好自己，就是给我最好的礼物。</div>
+  </section>
+
+  <!-- Quick nav -->
+  <nav class="nav-pills">
+    <a href="#period">生理期</a>
+    <a href="#life">生活技能</a>
+    <a href="#study">学习考试</a>
+    <a href="#safety">安全防护</a>
+    <a href="#money">经济实习</a>
+    <a href="#growth">自我提升</a>
+  </nav>
+
+  <!-- ==================== 生理期健康 ==================== -->
+  <section class="section" id="period">
+    <div class="section-header">
+      <div class="section-icon period">🩰</div>
+      <div>
+        <div class="section-title">生理期健康</div>
+        <div class="section-desc">了解自己的身体，是最重要的事</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h4><span class="emoji">📋</span> 你的经期自查表</h4>
+      <ul>
+        <li>周期 21~35 天都正常，平均 28 天</li>
+        <li>每次持续 2~8 天，血量 20~60ml（超过 80ml 要留意）</li>
+        <li>轻微不适正常，但痛到影响生活一定要看医生</li>
+        <li>🩸 血块小于拇指指甲盖 → 正常；更大或频繁 → 去检查</li>
+      </ul>
+      <div class="highlight-box">
+        <strong>⚠️ 需要去看医生的情况：</strong>血量浸透卫生巾 > 1片/小时、周期连续 3 个月紊乱、非经期出血、45 岁前停经 3 个月以上
+      </div>
+    </div>
+
+    <div class="card">
+      <h4><span class="emoji">💊</span> 经期护理要点</h4>
+      <ul>
+        <li>卫生巾每 2~4 小时换一次，量多时更勤</li>
+        <li>每天温水清洗外阴，淋浴代替盆浴</li>
+        <li>热敷小腹（40℃ 左右热水袋）缓解痛经</li>
+        <li>痛经厉害可吃布洛芬（饭后服用，不空腹）</li>
+        <li>多补铁：红肉、动物肝脏、鸭血、菠菜</li>
+        <li>少碰冰水、咖啡、酒精——它们会加重不适</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h4><span class="emoji">🏥</span> 娄底本地就医指南</h4>
+      <div class="info-row"><span class="label">首选</span><span class="value"><strong>娄底市中心医院</strong> — 三甲，妇产科省级重点专科</span></div>
+      <div class="info-row"><span class="label">地址</span><span class="value">娄星区长青中街 51 号</span></div>
+      <div class="info-row"><span class="label">电话</span><span class="value">0738-8527120 / 8120120</span></div>
+      <div style="margin-top:8px;"></div>
+      <div class="info-row"><span class="label">备选</span><span class="value"><strong>娄底市中医医院</strong> — 三甲，中西医结合，适合调理</span></div>
+      <div class="info-row"><span class="label">地址</span><span class="value">娄星区乐坪西街</span></div>
+      <div class="info-row"><span class="label">电话</span><span class="value">0738-8878059</span></div>
+    </div>
+
+    <div class="card">
+      <h4><span class="emoji">🔗</span> 靠谱科普链接</h4>
+      <div class="link-row">
+        <a href="https://dxy.com/article/206580" class="link-tag external" target="_blank" rel="noopener">丁香医生：经期真相</a>
+        <a href="https://cloud.kepuchina.cn/h5/detail?id=7302081972652527616" class="link-tag external" target="_blank" rel="noopener">科普中国：经期全攻略</a>
+        <a href="https://www.fhs.gov.hk/tc_chi/health_info/woman/12547.html" class="link-tag external" target="_blank" rel="noopener">香港卫生署：月经知识</a>
+        <a href="https://health.clevelandclinic.org/living-healthy/womens-health" class="link-tag external" target="_blank" rel="noopener">Cleveland Clinic 女性健康</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <h4><span class="emoji">💊</span> 娄底 24 小时药店</h4>
+      <div class="info-row"><span class="label">老百姓大药房</span><span class="value">氐星路店 0738-8211186 | 九亿步行街店 | 长青中街 33 号</span></div>
+      <div class="info-row"><span class="label">益丰大药房</span><span class="value">火车站店（月塘街时代大厦）| 乐坪西街店</span></div>
+      <div class="info-row"><span class="label">健康南门</span><span class="value">贤童街 670 号 0738-8335001</span></div>
+      <div style="margin-top:6px;font-size:12px;color:var(--text-muted);">💡 也可用「美团买药」「饿了么买药」APP 查附近 24h 药店并下单</div>
+    </div>
+
+    <div class="quote-divider">照顾好身体，因为你值得被温柔以待</div>
+  </section>
+
+  <!-- ==================== 生活技能 ==================== -->
+  <section class="section" id="life">
+    <div class="section-header">
+      <div class="section-icon life">🍳</div>
+      <div>
+        <div class="section-title">生活技能</div>
+        <div class="section-desc">从小白到独立，每一步都算数</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h4><span class="emoji">🍜</span> 简单又营养的快手菜</h4>
+      <ul>
+        <li><strong>番茄鸡蛋面</strong>：番茄炒出汁 + 炒蛋 + 面条，10 分钟搞定</li>
+        <li><strong>电饭煲焖饭</strong>：米 + 腊肠/鸡腿 + 蔬菜 + 酱油，一键完成</li>
+        <li><strong>水煮一切</strong>：西兰花、虾仁、玉米、鸡蛋 —— 沾酱油就很好吃</li>
+        <li><strong>燕麦早餐</strong>：即食燕麦 + 热水 + 坚果 + 蜂蜜，1 分钟</li>
+      </ul>
+      <div class="link-row">
+        <a href="https://www.xiachufang.com/" class="link-tag external" target="_blank" rel="noopener">下厨房 APP</a>
+        <a href="https://home.meishichina.com/recipe.html" class="link-tag external" target="_blank" rel="noopener">美食天下</a>
+        <a href="https://www.bilibili.com/v/cuisine/" class="link-tag external" target="_blank" rel="noopener">B站美食区</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <h4><span class="emoji">🧺</span> 宿舍/租房生活小常识</h4>
+      <ul>
+        <li>白醋 + 小苏打 = 万能清洁剂（水垢、油污、马桶都行）</li>
+        <li>衣柜放一块肥皂/香皂 → 衣服一直香香的还防虫</li>
+        <li>手机掉水里 → 立刻关机，埋进生米里一夜</li>
+        <li>衣服沾油渍 → 洗洁精直接涂上搓，再正常洗</li>
+        <li>烧水壶有水垢 → 白醋加水烧开，泡半小时，焕然一新</li>
+        <li>鞋子磨脚 → 穿之前用吹风机热风吹软，涂护手霜</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h4><span class="emoji">🩹</span> 家庭急救小知识</h4>
+      <ul>
+        <li><strong>烫伤</strong>：流动冷水冲 15-20 分钟！不要涂牙膏、酱油</li>
+        <li><strong>小割伤</strong>：清水冲 → 碘伏消毒 → 创可贴（别包太紧）</li>
+        <li><strong>流鼻血</strong>：头前倾！捏住鼻翼 5-10 分钟，别仰头</li>
+        <li><strong>崴脚</strong>：冰敷（不是热敷！），抬高，休息（RICE 原则）</li>
+      </ul>
+      <div class="link-row">
+        <a href="https://www.emergencycare.hk/tc/first-aid-guide/" class="link-tag external" target="_blank" rel="noopener">急救指南（图文）</a>
+        <a href="https://www.bilibili.com/video/BV1Yb411v7ZV" class="link-tag external" target="_blank" rel="noopener">急救科普视频</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <h4><span class="emoji">🍱</span> 娄底本地生活便利</h4>
+      <div class="info-row"><span class="label">买菜</span><span class="value">美团优选、多多买菜（社区团购送到楼下，便宜方便）</span></div>
+      <div class="info-row"><span class="label">外卖</span><span class="value">美团外卖、饿了么（覆盖娄星区大部分区域）</span></div>
+      <div class="info-row"><span class="label">逛街</span><span class="value">春园步行街、万豪城市广场、五江碧桂园</span></div>
+    </div>
+
+    <div class="quote-divider">学会照顾好自己的胃，它就永远不会让你孤单</div>
+  </section>
+
+  <!-- ==================== 学习考试 ==================== -->
+  <section class="section" id="study">
+    <div class="section-header">
+      <div class="section-icon study">📖</div>
+      <div>
+        <div class="section-title">学习考试</div>
+        <div class="section-desc">每一份努力，都在为未来的自己铺路</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h4><span class="emoji">📝</span> 高效学习方法</h4>
+      <ul>
+        <li><strong>番茄钟法</strong>：专注 25 分钟 → 休息 5 分钟 → 每 4 轮大休息 15 分钟</li>
+        <li><strong>费曼学习法</strong>：假装给一个完全不懂的人讲一遍，讲不清楚的地方就是你没懂的地方</li>
+        <li><strong>间隔重复</strong>：学完 1 天后复习 → 3 天后 → 7 天后 → 30 天后（Anki 卡片帮你自动安排）</li>
+        <li><strong>主动回忆</strong>：合上书，自己默写/复述，比反复翻书有效 3 倍</li>
+        <li><strong>睡眠巩固</strong>：背完东西直接睡觉，大脑会在睡眠中帮你巩固记忆</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h4><span class="emoji">🏫</span> 娄底市图书馆 — 你的免费自习室</h4>
+      <div class="info-row"><span class="label">地址</span><span class="value">娄星区月塘东街体育公园文化中心内</span></div>
+      <div class="info-row"><span class="label">开放</span><span class="value">周二至周日 09:00-17:00（周一闭馆）</span></div>
+      <div class="info-row"><span class="label">自习</span><span class="value">综合阅览室、青少年阅览室、社科/自科文献阅览室、报刊阅览室</span></div>
+      <div class="info-row"><span class="label">晚间</span><span class="value"><strong>自助图书馆全年 09:00-20:30</strong>，适合晚上学习</span></div>
+      <div class="info-row"><span class="label">座位</span><span class="value">400 个阅览座位，8021㎡ 空间</span></div>
+    </div>
+
+    <div class="card">
+      <h4><span class="emoji">💻</span> 优质在线学习资源</h4>
+      <ul>
+        <li><strong>中国大学 MOOC</strong>（icourse163.org）— 国内名校课程免费学</li>
+        <li><strong>B站知识区</strong> — 搜索「高数」「四六级」「考研」海量免费课</li>
+        <li><strong>Coursera</strong>（coursera.org）— 全球名校课程，可申请助学金免费学</li>
+        <li><strong>知乎/小红书</strong> — 搜「XX 考试经验」找到学霸的真实备考方法</li>
+      </ul>
+      <div class="link-row">
+        <a href="https://www.icourse163.org/" class="link-tag external" target="_blank" rel="noopener">中国大学MOOC</a>
+        <a href="https://www.bilibili.com/v/knowledge/" class="link-tag external" target="_blank" rel="noopener">B站知识区</a>
+        <a href="https://www.coursera.org/" class="link-tag external" target="_blank" rel="noopener">Coursera</a>
+        <a href="https://apps.ankiweb.net/" class="link-tag external" target="_blank" rel="noopener">Anki 记忆卡片</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <h4><span class="emoji">🎯</span> 考试党实用 APP</h4>
+      <ul>
+        <li><strong>Forest</strong>：种树专注计时，离开手机就种树，攒一片森林很有成就感</li>
+        <li><strong>番茄 ToDo</strong>：极简番茄钟 + 待办清单 + 数据统计</li>
+        <li><strong>Anki</strong>：科学间隔重复记忆，特别是背单词 / 医学生 / 法考神器</li>
+        <li><strong>幕布</strong>：大纲笔记一键变思维导图，梳理知识框架超好用</li>
+        <li><strong>Notion</strong>：全能笔记 + 资料库，适合整理长期学习项目</li>
+      </ul>
+    </div>
+
+    <div class="quote-divider">你认真学习的样子，是我见过最美的风景</div>
+  </section>
+
+  <!-- ==================== 安全防护 ==================== -->
+  <section class="section" id="safety">
+    <div class="section-header">
+      <div class="section-icon safety">🛡️</div>
+      <div>
+        <div class="section-title">安全防护</div>
+        <div class="section-desc">保护好自己，是爱自己的第一步</div>
+      </div>
+    </div>
+
+    <div class="emergency-bar">
+      🆘 <strong>紧急电话速查</strong><br>
+      公安报警 <a href="tel:110">110</a> · 短信报警 <a href="tel:12110">12110</a> · 急救 <a href="tel:120">120</a><br>
+      妇女维权热线 <a href="tel:12338">12338</a> · 反诈专线 <a href="tel:96110">96110</a>
+    </div>
+
+    <div class="card">
+      <h4><span class="emoji">🚶‍♀️</span> 日常安全守则</h4>
+      <ul>
+        <li>夜间尽量不独行，走大路、有灯的路，不要走小巷捷径</li>
+        <li>走路不戴耳机，保持对周围环境的警觉</li>
+        <li>打车坐后排，上车前拍下车牌发给朋友，行程中保持通话或开位置共享</li>
+        <li>不坐无牌黑车，只用正规平台（滴滴、高德打车等）</li>
+        <li>陌生人饮料不喝！在酒吧/聚会，杯子不离视线</li>
+        <li>感觉被尾随 → 往人多的地方走，进便利店/餐厅，打 110</li>
+      </ul>
+      <div class="highlight-box">
+        <strong>📱 手机紧急功能：</strong>iPhone 连按 5 次电源键 → 自动 SOS；安卓在设置搜「紧急 SOS」开启。提前设好紧急联系人！
+      </div>
+    </div>
+
+    <div class="card">
+      <h4><span class="emoji">🌐</span> 网络安全 + 防诈骗</h4>
+      <ul>
+        <li>安装 <strong>国家反诈中心 APP</strong>！真的有用，能拦截很多诈骗电话</li>
+        <li>朋友圈不要晒位置、机票、身份证、家门钥匙照片</li>
+        <li>微信设置：关闭「允许陌生人查看十条朋友圈」</li>
+        <li>任何「刷单」「高薪兼职」「先交钱的」= 诈骗</li>
+        <li>自称客服退款/公检法办案来电 → 挂掉，自己打官方电话核实</li>
+        <li>AI 换脸视频通话诈骗 → 让对方转头、用手挡脸一下看是否变形</li>
+      </ul>
+      <div class="link-row">
+        <a href="https://gat.jl.gov.cn/jmhd/aqff/202509/t20250904_9315467.html" class="link-tag external" target="_blank" rel="noopener">大学生安全防范宝典</a>
+        <a href="https://www.icourse163.org/course/SZIT-1468463168" class="link-tag external" target="_blank" rel="noopener">安全教育慕课</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <h4><span class="emoji">⚖️</span> 遭遇侵害/家暴怎么办</h4>
+      <ul>
+        <li>第一步：确保人身安全，立刻离开危险环境</li>
+        <li>第二步：拨打 <strong>110</strong>，保留出警记录、伤情鉴定</li>
+        <li>第三步：保存一切证据 —— 照片、录音、聊天记录、病历、报警回执</li>
+        <li>第四步：可向法院申请 <strong>人身安全保护令</strong></li>
+        <li>全国 24h 法律咨询热线：<strong>12348</strong></li>
+        <li>妇女维权热线：<strong>12338</strong>（全国统一，24 小时）</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h4><span class="emoji">🏛️</span> 娄底本地安全资源</h4>
+      <div class="info-row"><span class="label">市公安局</span><span class="value">娄星区公安分局 0738-8312473（娄星南路 659 号）</span></div>
+      <div class="info-row"><span class="label">乐坪派出所</span><span class="value">0738-6518293（乐坪大道公园 1 号旁）</span></div>
+      <div class="info-row"><span class="label">市妇联</span><span class="value">0738-8312212 / 维权站 0738-8281193（乐坪大道东 1566 号检察院九楼）</span></div>
+      <div class="info-row"><span class="label">法援热线</span><span class="value">12348（全国免费法律咨询，24h）</span></div>
+    </div>
+
+    <div class="quote-divider">你的平安，是我放在心尖上的事</div>
+  </section>
+
+  <!-- ==================== 经济实习 ==================== -->
+  <section class="section" id="money">
+    <div class="section-header">
+      <div class="section-icon money">💰</div>
+      <div>
+        <div class="section-title">经济与实习</div>
+        <div class="section-desc">经济独立，是女孩子最好的底气</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h4><span class="emoji">💡</span> 学生党理财入门</h4>
+      <ul>
+        <li><strong>先记账</strong>：用「鲨鱼记账」或微信记账小程序，清楚钱花在哪</li>
+        <li><strong>50-30-20 法则</strong>：50% 必需开支 + 30% 喜欢的东西 + 20% 存起来</li>
+        <li><strong>先存后花</strong>：每月生活费一到，先把要存的转出来，剩下的再花</li>
+        <li><strong>不碰网贷！</strong>花呗/白条/分期看起来方便，利息高得吓人</li>
+        <li><strong>不碰刷单/投资群</strong>：所有「稳赚」「高收益」的都是割韭菜的</li>
+      </ul>
+      <div class="link-row">
+        <a href="https://www.bilibili.com/v/knowledge-finance/" class="link-tag external" target="_blank" rel="noopener">B站财经知识区</a>
+        <a href="https://www.zhihu.com/topic/19550593" class="link-tag external" target="_blank" rel="noopener">知乎：个人理财</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <h4><span class="emoji">🎓</span> 娄底本地实习/就业渠道</h4>
+      <ul>
+        <li><strong>娄底市人社局官网</strong>：hnloudi.gov.cn/ldbzj — 就业见习岗位、创业补贴公告</li>
+        <li><strong>娄星区青年就业见习</strong>：面向毕业 2 年内大学生，月补 1700-2680 元 + 保险</li>
+        <li><strong>「人才夜市」</strong>：娄星广场夜间招聘会 + AI 智能匹配，150+ 企业</li>
+        <li><strong>校园招聘</strong>：湖南人文科技学院、娄底职业技术学院定期有校企招聘会</li>
+        <li><strong>娄底水业公司</strong>：国企招 2025/2026 届毕业生，五险一金</li>
+      </ul>
+      <div class="info-row"><span class="label">见习咨询</span><span class="value">娄星区人社局 0738-8313495</span></div>
+      <div class="link-row">
+        <a href="https://www.hnloudi.gov.cn/ldbzj/jycy/xxgk_list.shtml" class="link-tag external" target="_blank" rel="noopener">娄底人社局就业专栏</a>
+        <a href="http://www.louxing.gov.cn/" class="link-tag external" target="_blank" rel="noopener">娄星区政府网</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <h4><span class="emoji">💼</span> 靠谱的全国求职平台</h4>
+      <ul>
+        <li><strong>国家大学生就业服务平台</strong>（24365）— 教育部官方，完全免费</li>
+        <li><strong>实习僧</strong>（shixiseng.com）— 专注实习和校招</li>
+        <li><strong>BOSS 直聘 / 智联招聘</strong> — 岗位多，但要仔细辨别真伪</li>
+        <li><strong>公司官网/招聘公众号</strong> — 大公司一般在自己官网发招聘最及时</li>
+      </ul>
+      <div class="highlight-box">
+        <strong>⚠️ 求职防骗：</strong>任何要你先交钱的（培训费、押金、服装费）一定是骗子！正规公司不会收求职者任何费用。
+      </div>
+      <div class="link-row">
+        <a href="https://www.ncss.cn/" class="link-tag external" target="_blank" rel="noopener">24365 就业平台</a>
+        <a href="https://www.shixiseng.com/" class="link-tag external" target="_blank" rel="noopener">实习僧</a>
+      </div>
+    </div>
+
+    <div class="quote-divider">你值得拥有一切美好的事物，包括经济上的从容</div>
+  </section>
+
+  <!-- ==================== 自我提升 ==================== -->
+  <section class="section" id="growth">
+    <div class="section-header">
+      <div class="section-icon growth">🌱</div>
+      <div>
+        <div class="section-title">自我提升</div>
+        <div class="section-desc">成为更好的自己，是对生命最好的回答</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h4><span class="emoji">🧘</span> 娄底运动健身好去处</h4>
+      <ul>
+        <li><strong>⭐ 娄星区工人文化宫</strong>（长青街东 125 号）— 8000㎡ 六馆一中心，含健身房、瑜伽馆、羽毛球馆，职工年费仅 <strong>100 元</strong>！被评为「宝藏阵地」</li>
+        <li><strong>禅逸瑜伽</strong>（春园步行街银街）— 娄底老牌专业瑜伽（2007 年成立），「娄底十大优秀女性品牌企业」，教练专业</li>
+        <li><strong>JDL 健身</strong>（五江碧桂园城市广场）— 5000㎡ 大型连锁，有瑜伽、形体芭蕾、街舞、拉丁等课程</li>
+        <li><strong>爱尚运动会所</strong> — 超大空间，含高温瑜伽，操课种类多</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h4><span class="emoji">📚</span> 值得反复读的好书</h4>
+      <ul>
+        <li><strong>《你当像鸟飞往你的山》</strong> — 教育如何改变一个人的命运</li>
+        <li><strong>《被讨厌的勇气》</strong> — 阿德勒心理学，帮你摆脱他人眼光的束缚</li>
+        <li><strong>《把时间当作朋友》</strong> — 李笑来，关于时间管理和自我成长</li>
+        <li><strong>《也许你该找个人聊聊》</strong> — 心理咨询师的真实故事，温暖又治愈</li>
+        <li><strong>《非暴力沟通》</strong> — 学会好好说话，处理好所有关系</li>
+      </ul>
+      <div class="link-row">
+        <a href="https://weread.qq.com/" class="link-tag external" target="_blank" rel="noopener">微信读书</a>
+        <a href="https://www.dedao.cn/" class="link-tag external" target="_blank" rel="noopener">得到 APP</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <h4><span class="emoji">🧠</span> 心理健康与情绪管理</h4>
+      <ul>
+        <li><strong>心情不好很正常</strong> — 激素波动、压力、季节变化都会影响情绪，不是你的错</li>
+        <li><strong>写下来</strong> — 把烦恼写在纸上，比闷在心里好一百倍</li>
+        <li><strong>运动是天然抗抑郁药</strong> — 快走 20 分钟就能让心情明显变好</li>
+        <li><strong>478 呼吸法</strong>：吸气 4 秒 → 憋气 7 秒 → 缓慢呼气 8 秒，焦虑时试 3 轮</li>
+        <li><strong>不要一个人扛</strong> — 找信任的人倾诉，或者打心理援助热线</li>
+      </ul>
+      <div class="highlight-box">
+        <strong>📞 心理援助热线（免费 24h）：</strong>全国心理援助热线 <strong>400-161-9995</strong> · 北京心理危机干预 <strong>010-82951332</strong><br>
+        你不需要独自承受一切。求助是一种勇敢。
+      </div>
+    </div>
+
+    <div class="card">
+      <h4><span class="emoji">🌟</span> 培养一个治愈自己的爱好</h4>
+      <ul>
+        <li><strong>写手账/日记</strong> — 记录生活中的小确幸，回头看全是温暖的回忆</li>
+        <li><strong>养一盆植物</strong> — 绿萝、多肉都很好养，看着它生长就是治愈</li>
+        <li><strong>学做一道菜</strong> — 为自己做一顿饭，是成年人最基础的快乐</li>
+        <li><strong>涂色 / 画画</strong> — 《秘密花园》涂色书或 iPad 上的 Procreate，零基础也能玩</li>
+        <li><strong>看纪录片</strong> — 推荐《人生果实》《地球脉动》《但是还有书籍》</li>
+      </ul>
+      <div class="link-row">
+        <a href="https://www.bilibili.com/v/documentary/" class="link-tag external" target="_blank" rel="noopener">B站纪录片频道</a>
+        <a href="https://www.xinli001.com/" class="link-tag external" target="_blank" rel="noopener">壹心理</a>
+      </div>
+    </div>
+
+    <div class="quote-divider">你本来就很好，你值得世间所有美好</div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <span class="footer-heart">💗</span>
+    <p class="footer-message">
+      李栀，这个小站是为你一个人建的。<br>
+      里面的每一条信息，都是我想替你准备好的依靠。<br>
+      无论你在哪里，在做什么，<br>
+      请一定照顾好自己。<br>
+    </p>
+    <p class="footer-message" style="font-size:16px;margin-top:12px;">
+      520 快乐，我的女孩 🌸
+    </p>
+    <p class="footer-sign">— 专属李栀的 520 小站 · 2026.05.20 —</p>
+    <p class="footer-date">
+      本页所有外部链接均来自权威机构/官方平台<br>
+      娄底本地信息整理自政府公开渠道
+    </p>
+  </footer>
+
+</div>
+</body>
+</html>
